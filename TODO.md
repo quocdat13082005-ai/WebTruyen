@@ -1,12 +1,8 @@
-# Task: Sửa lại ChiTiet.cshtml - COMPLETE
+# Fix Login/Search/List Issues
 
-## New Task: Push to GitHub https://github.com/users/quocdat13082005-ai/projects/2
-
-## Plan Steps:
-1. [ ] Install Git
-2. [ ] git init
-3. [ ] git add .
-4. [ ] git commit -m "Initial commit"
-5. [ ] git remote add origin https://github.com/quocdat13082005-ai/WebTruyen.git
-6. [ ] git push -u origin main
-7. [ ] Link to GitHub Project #2
+## Steps:
+- [x] 1. Fix TruyenController.TimKiem parameter from 'Keyword' to 'tuKhoa'
+- [x] 2. Add search box to Home/Index.cshtml
+- [x] 3. Add slider JS to wwwroot/js/site.js
+- [ ] 4. Test: dotnet run, check /Truyen/TimKiem?tuKhoa=test, /Truyen/DanhSachTruyen, login, ChiTiet chapters
+- [ ] 5. Complete

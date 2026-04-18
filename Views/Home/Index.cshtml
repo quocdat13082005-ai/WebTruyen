@@ -6,7 +6,7 @@
 @model Truyen.Models.HomeIndexViewModel
 
 <div class="container-fluid py-5 bg-light">
-    @if (Context.Session.GetString("VaiTro") != null)
+@if (Context.Session.GetString("VaiTro") != null)
     {
         var vaiTro = Context.Session.GetString("VaiTro");
         var vaiTroDisplay = vaiTro switch
@@ -24,6 +24,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
+
+
 
     <!-- TRUYỆN HOT -->
     <section class="mb-5">

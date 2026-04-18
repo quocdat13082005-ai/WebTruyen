@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -27,6 +27,10 @@
                 <i class="fa-solid fa-house"></i> Trang chủ
             </a>
 
+            <a href="/Truyen/DanhSachTruyen">
+                <i class="fa-solid fa-book"></i> Danh sách truyện
+            </a>
+
             <a href="/Home/TheLoai">
                 <i class="fa-solid fa-tags"></i> Thể loại
             </a>
@@ -51,12 +55,12 @@
             }
         </nav>
 
-        <div class="search">
-            <input type="text" placeholder="Tìm kiếm truyện...">
-            <button>
+        <form class="search" method="get" action="/Truyen/TimKiem">
+            <input type="text" name="tuKhoa" placeholder="Tìm kiếm truyện...">
+            <button type="submit" aria-label="Tìm kiếm">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-        </div>
+        </form>
     </header>
 
     <!-- NỘI DUNG -->
