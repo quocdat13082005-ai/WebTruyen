@@ -1,0 +1,49 @@
+@model dynamic
+@using Microsoft.Data.SqlClient
+
+@{
+    int maChuong = Model.maChuong;
+    string tenChuong = Model.tenChuong;
+    int soThuTu = Model.soThuTu;
+    
+    int? maTK = Context.Session.GetInt32("MaTK");
+    bool daMua = false;
+    
+    if (maTK != null)
+    {
+        try
+        {
+            using var conn = new SqlConnection(@"Server=ADMIN-PC;Database=WebTruyen;User Id=sa;Password=13082005;TrustServerCertificate=True;");
+            conn.Open();
+            using var cmd = new SqlCommand("SELECT COUNT(*) FROM MuaChuong WHERE MaTK=@tk AND MaChuong=@c", conn);
+            cmd.Parameters.AddWithValue("@tk", maTK.Value);
+            cmd.Parameters.AddWithValue("@c", maChuong);
+            daMua = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+        }
+        catch { /* ignore */ }
+    }
+    
+    string label = daMua ? "Đọc ngay" : "Mua & Đọc";
+    string icon = daMua ? "fa-play" : "fa-lock"; 
+    string cls = daMua ? "btn-success" : "btn-outline-primary";
+    string link = daMua ? $"/Truyen/DocChuong/{maChuong}" : "javascript:void(0)";
+    string onclick = daMua ? "" : $"muaChuong({maChuong});return false;";
+}
+
+<div class="col-lg-4 col-md-6">
+    <a href="@link" onclick="@onclick" class="text-decoration-none">
+        <div class="card h-100 shadow-sm hover-lift border-0">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="badge bg-primary">Chương @soThuTu</span>
+                </div>
+                <h6 class="fw-bold mb-3">@tenChuong</h6>
+                <div class="text-end">
+                    <button class="btn btn-sm @cls w-100">
+                        <i class="fas @icon me-2"></i>@label
+                    </button>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>

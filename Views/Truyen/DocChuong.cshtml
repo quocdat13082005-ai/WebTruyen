@@ -1,0 +1,165 @@
+@{
+    ViewData["Title"] = Model.Chuong.TenTruyen + " - " + Model.Chuong.TenChuong;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Truyen.Models.DocChuongViewModel
+
+<div class="container-fluid p-0 min-vh-100 bg-light">
+    <div class="row g-0">
+        <!-- Sidebar -->
+        <div class="col-lg-2 d-none d-lg-block bg-white border-end shadow-sm h-100">
+            <div class="p-4">
+                <h5 class="fw-bold mb-4">@Model.Chuong.TenTruyen</h5>
+                <div class="mb-3">
+                    <small class="fw-bold text-muted">Chương hiện tại:</small>
+                    <div class="mt-2">
+                        <span class="badge bg-primary fs-6">Chương @Model.Chuong.SoThuTu</span>
+                    </div>
+                </div>
+                <hr>
+                <h6 class="fw-bold mb-3">Điều khiển</h6>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Cỡ chữ:</label>
+                    <div class="btn-group w-100" role="group">
+                        <button type="button" class="btn btn-outline-secondary btn-sm font-sm" onclick="changeFont(14)">Nhỏ</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm font-md active" onclick="changeFont(16)">Bình thường</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm font-lg" onclick="changeFont(18)">Lớn</button>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-bold">Chủ đề:</label>
+                    <div class="btn-group w-100" role="group">
+                        <button type="button" class="btn btn-outline-primary btn-sm theme-day active" onclick="changeTheme('day')">Ngày</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm theme-night" onclick="changeTheme('night')">Đêm</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="d-grid">
+                    @if (Model.Chuong.MaChuongTruoc.HasValue)
+                    {
+                        <a asp-controller="Truyen" asp-action="DocChuong" asp-route-id="@Model.Chuong.MaChuongTruoc" class="btn btn-outline-primary btn-sm mb-2">
+                            <i class="fas fa-chevron-left me-1"></i> Chương trước
+                        </a>
+                    }
+                    @if (Model.Chuong.MaChuongSau.HasValue)
+                    {
+                        <a asp-controller="Truyen" asp-action="DocChuong" asp-route-id="@Model.Chuong.MaChuongSau" class="btn btn-primary btn-sm">
+                            Chương sau <i class="fas fa-chevron-right ms-1"></i>
+                        </a>
+                    }
+                    <a asp-controller="Truyen" asp-action="ChiTiet" asp-route-id="@Model.Chuong.MaTruyen" class="btn btn-outline-secondary btn-sm mt-2">
+                        <i class="fas fa-list me-1"></i> Mục lục
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Reader -->
+        <div class="col-lg-10 col-md-12 p-4 reader-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <h2 class="h3 fw-bold mb-0">@Model.Chuong.TenChuong</h2>
+                <div>
+                    <span class="badge bg-info me-2">@Model.Chuong.LuotDoc.ToString("N0") lượt đọc</span>
+                    <a asp-controller="Truyen" asp-action="ChiTiet" asp-route-id="@Model.Chuong.MaTruyen" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-list-ul"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div id="chapter-content" class="chapter-content lh-lg">
+                @Html.Raw(Model.Chuong.NoiDung)
+            </div>
+
+            <div class="mt-5 pt-4 border-top">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        @if (Model.Chuong.MaChuongTruoc.HasValue)
+                        {
+                            <a asp-controller="Truyen" asp-action="DocChuong" asp-route-id="@Model.Chuong.MaChuongTruoc" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-chevron-left"></i> Chương trước
+                            </a>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        @if (Model.Chuong.MaChuongSau.HasValue)
+                        {
+                            <a asp-controller="Truyen" asp-action="DocChuong" asp-route-id="@Model.Chuong.MaChuongSau" class="btn btn-primary w-100">
+                                Chương sau <i class="fas fa-chevron-right"></i>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.reader-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.chapter-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+    font-family: 'Times New Roman', serif;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    min-height: 70vh;
+}
+.theme-night .chapter-content {
+    background: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+.font-sm { font-size: 14px !important; }
+.font-md { font-size: 16px !important; }
+.font-lg { font-size: 18px !important; }
+.btn.active { background-color: #0d6efd !important; color: white !important; }
+/* Responsive mobile */
+@@media (max-width: 768px) {
+    .chapter-content { 
+        padding: 20px 10px !important; 
+        font-size: 15px !important; 
+    }
+}
+</style>
+
+<script>
+let currentFont = 16;
+let currentTheme = 'day';
+
+function changeFont(size) {
+    currentFont = size;
+    document.querySelector('.chapter-content').style.fontSize = size + 'px';
+    document.querySelectorAll('.font-sm, .font-md, .font-lg').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+function changeTheme(theme) {
+    currentTheme = theme;
+    if (theme === 'night') {
+        document.body.classList.add('theme-night');
+        document.querySelector('.theme-day').classList.remove('active');
+        document.querySelector('.theme-night').classList.add('active');
+    } else {
+        document.body.classList.remove('theme-night');
+        document.querySelector('.theme-night').classList.remove('active');
+        document.querySelector('.theme-day').classList.add('active');
+    }
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') {
+        const prevBtn = document.querySelector('a[href*="MaChuongTruoc"]');
+        if (prevBtn) prevBtn.click();
+    } else if (e.key === 'ArrowRight') {
+        const nextBtn = document.querySelector('a[href*="MaChuongSau"]');
+        if (nextBtn) nextBtn.click();
+    }
+});
+</script>

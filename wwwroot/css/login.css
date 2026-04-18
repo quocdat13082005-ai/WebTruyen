@@ -1,0 +1,116 @@
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f2f2f2;
+}
+
+.login-box{
+    width:350px;
+    margin:100px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-box h2{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.login-box input,
+.login-box select{
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.login-box button{
+    width:100%;
+    padding:10px;
+    border:none;
+    background:#1f4e79;
+    color:white;
+    font-size:16px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.login-box button:hover{
+    background:#163a5a;
+}
+
+.login-box p{
+    text-align:center;
+    margin-top:15px;
+}
+
+.login-box a{
+    color:#1f4e79;
+    text-decoration:none;
+}
+.register-btn{
+    display:block;
+    text-align:center;
+    margin-top:15px;
+    margin-bottom: 20px;
+    padding:10px;
+    border:1px solid #1f4e79;
+    color:#1f4e79;
+    border-radius:5px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.register-btn:hover{
+    background:#1f4e79;
+    color:white;
+}
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #1f4e79;
+    text-decoration: none;
+    font-size: 14px;
+}
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+    display: block;
+    margin-top: 1p
+    x;
+    font-size: 14px;
+    padding: 5px 0;
+}
+
+.login-box input + .text-danger,
+.login-box select + .text-danger {
+    margin-top: -8px !important;
+    margin-bottom: 10px;
+}
+
+/* Validation summary nhỏ gọn - bỏ bullet */
+.login-box .text-danger.field-validation-error,
+.login-box .text-danger.validation-summary-errors,
+.login-box .validation-summary-errors ul {
+    text-align: center !important;
+    margin: 8px 0 15px 0 !important;   /* Giảm margin */
+    padding: 6px 12px !important;      /* Ô nhỏ hơn */
+    background: #f8d7da;
+    list-style: none !important;
+    box-shadow: none;
+    border: none;
+    font-size: 14px;  /* Nhỏ gọn */
+}
+
+.login-box .validation-summary-errors ul li {
+    list-style: none;
+    margin: 0;
+    padding: 2px 0;
+}

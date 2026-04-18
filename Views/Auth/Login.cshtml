@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/login.css?v=@DateTime.Now.Ticks" />
+
+<div class="login-box">
+
+    <h2>Đăng Nhập</h2>
+
+@model Truyen.Models.LoginModel
+    <form asp-action="Login" method="post">
+
+        <input asp-for="Username" placeholder="Tên đăng nhập hoặc email" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+
+        <input asp-for="Password" placeholder="Mật khẩu" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+
+        <select asp-for="Role">
+            <option value="">-- Chọn vai trò --</option>
+            <option value="NguoiDoc">Người đọc</option>
+            <option value="TacGia">Tác giả</option>
+            <option value="Admin">Quản trị viên</option>
+        </select>
+        <span asp-validation-for="Role" class="text-danger"></span>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
+        
+
+
+    </form>
+
+    <a asp-controller="Auth"
+       asp-action="Register"
+       class="register-btn">
+        Đăng ký tài khoản
+    </a>
+    
+    <a href="javascript:alert('Chức năng quên mật khẩu sẽ được cập nhật!')" class="forgot-password">
+        Quên mật khẩu?
+    </a>
+</div>

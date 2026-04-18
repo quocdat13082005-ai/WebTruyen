@@ -1,0 +1,93 @@
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Truyen.Models.ProfileViewModel
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-circle fa-3x text-primary mb-3"></i>
+                        <h4 class="mb-1">Thông tin cá nhân</h4>
+                        <p class="text-muted">Quản lý tài khoản của bạn</p>
+                    </div>
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="text-center p-3 bg-light rounded-3">
+                                <i class="fas fa-user text-primary fa-lg mb-2"></i>
+                                <div>@Model.TenDangNhap</div>
+                                <small class="text-muted">Tên đăng nhập</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-3 bg-light rounded-3">
+                                <i class="fas fa-coins text-success fa-lg mb-2"></i>
+                                <div class="h5 fw-bold">@Model.SoDuXu <small class="text-muted">xu</small></div>
+                                <small>Số dư</small>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="p-4 bg-light rounded-3 text-center">
+                                <div class="row mb-2">
+                                    <div class="col-4 fw-bold text-end pe-3">Họ tên:</div>
+                                    <div class="col-8">@Model.HoTen</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-4 fw-bold text-end pe-3">Email:</div>
+                                    <div class="col-8">@Model.Email</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-4 fw-bold text-end pe-3">Ngày tạo:</div>
+                                    <div class="col-8">@Model.NgayTao.ToString("dd/MM/yyyy")</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 fw-bold text-end pe-3">Vai trò:</div>
+                                    <div class="col-8">
+                                        <span class="badge bg-info fs-6 px-3 py-2">@Model.VaiTroDisplay</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="/Home/NapXu" class="btn btn-warning btn-lg px-4">
+                            <i class="fas fa-coins me-2"></i>Nạp xu
+                        </a>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Trang chủ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.profile-info .form-control-plaintext {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+}
+.badge {
+    font-size: 1rem;
+}
+</style>
+

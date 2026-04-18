@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/login.css?v=@DateTime.Now.Ticks" />
+
+<div class="login-box">
+    <h2>Đăng Ký Tài Khoản Người Đọc</h2>
+
+    @model Truyen.Models.RegisterModel
+    <form asp-action="Register" method="post">
+        <input asp-for="TenDangNhap" placeholder="Tên đăng nhập" />
+        <span asp-validation-for="TenDangNhap" class="text-danger"></span>
+
+        <input asp-for="MatKhau" placeholder="Mật khẩu" />
+        <span asp-validation-for="MatKhau" class="text-danger"></span>
+
+        <input asp-for="XacNhanMatKhau" placeholder="Xác nhận mật khẩu" />
+        <span asp-validation-for="XacNhanMatKhau" class="text-danger"></span>
+
+        <input asp-for="HoTen" placeholder="Họ tên" />
+        <span asp-validation-for="HoTen" class="text-danger"></span>
+
+        <input asp-for="Email" placeholder="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <button type="submit" class="btn btn-primary w-100">Đăng Ký</button>
+    </form>
+
+    <a asp-controller="Auth" asp-action="Login" class="register-btn">
+        Đã có tài khoản? Đăng nhập
+    </a>
+</div>
+
+
+

@@ -1,0 +1,162 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Truyen.Models.HomeIndexViewModel
+
+<div class="container-fluid py-5 bg-light">
+    @if (Context.Session.GetString("VaiTro") != null)
+    {
+        var vaiTro = Context.Session.GetString("VaiTro");
+        var vaiTroDisplay = vaiTro switch
+        {
+            "NguoiDoc" => "Người đọc",
+            "TacGia" => "Tác giả",
+            "Admin" => "Quản trị viên",
+            _ => vaiTro ?? "Không xác định"
+        };
+        
+        <div class="alert alert-success alert-dismissible fade show mb-5 mx-auto" style="max-width: 800px;" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong>Xin chào @Context.Session.GetString("HoTen")! (@vaiTroDisplay)</strong>
+            <a href="/Home/Profile" class="alert-link">Xem thông tin cá nhân & nạp xu →</a>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- TRUYỆN HOT -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-fire text-danger me-2"></i>TRUYỆN HOT <span class="badge bg-danger">@Model.TruyenHot.Count</span>
+        </h2>
+        <div class="position-relative">
+            <button class="btn btn-dark position-absolute top-50 start-0 translate-middle-y z-3 slider-prev" data-slider="hot" style="width: 50px; height: 50px; border-radius: 50%; font-size: 20px;">❮</button>
+            <div class="slider-container overflow-hidden px-4">
+                <div class="slider-track d-flex" id="hotTrack">
+                    @foreach (var truyen in Model.TruyenHot)
+                    {
+                        <div class="flex-shrink-0 mx-3" style="width: calc((100% - 60px) / 6);">
+                            <a asp-controller="Truyen" asp-action="ChiTiet" asp-route-id="@truyen.MaTruyen" class="text-decoration-none h-100 d-block">
+                                <div class="card h-100 shadow-sm border-0 hover-lift">
+                                    <img src="@(truyen.AnhBia ?? "/img/default-cover.jpg")" class="card-img-top" style="height: 220px; object-fit: cover;" alt="@truyen.TenTruyen">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title fw-bold text-truncate mb-1">@truyen.TenTruyen</h6>
+                                        <small class="text-muted d-block mb-2">@truyen.TheLoai</small>
+                                        <div class="d-flex justify-content-between small mb-2">
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-eye me-1"></i>@truyen.LuotXem
+                                            </span>
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-heart me-1"></i>@truyen.LuotThich
+                                            </span>
+                                        </div>
+                                        <span class="badge @(truyen.TrangThai == "Full" ? "bg-success" : "bg-primary") w-100">@truyen.TrangThai</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <button class="btn btn-dark position-absolute top-50 end-0 translate-middle-y z-3 slider-next" data-slider="hot" style="width: 50px; height: 50px; border-radius: 50%; font-size: 20px;">❯</button>
+        </div>
+    </section>
+
+    <!-- TRUYỆN HAY -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-star text-warning me-2"></i>TRUYỆN HAY <span class="badge bg-warning text-dark">@Model.TruyenHay.Count</span>
+        </h2>
+        <div class="position-relative">
+            <button class="btn btn-dark position-absolute top-50 start-0 translate-middle-y z-3 slider-prev" data-slider="hay" style="width: 50px; height: 50px; border-radius: 50%; font-size: 20px;">❮</button>
+            <div class="slider-container overflow-hidden px-4">
+                <div class="slider-track d-flex" id="hayTrack">
+                    @foreach (var truyen in Model.TruyenHay)
+                    {
+                        <div class="flex-shrink-0 mx-3" style="width: calc((100% - 60px) / 6);">
+                            <a asp-controller="Truyen" asp-action="ChiTiet" asp-route-id="@truyen.MaTruyen" class="text-decoration-none h-100 d-block">
+                                <div class="card h-100 shadow-sm border-0 hover-lift">
+                                    <img src="@(truyen.AnhBia ?? "/img/default-cover.jpg")" class="card-img-top" style="height: 220px; object-fit: cover;" alt="@truyen.TenTruyen">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title fw-bold text-truncate mb-1">@truyen.TenTruyen</h6>
+                                        <small class="text-muted d-block mb-2">@truyen.TheLoai</small>
+                                        <div class="d-flex justify-content-between small mb-2">
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-eye me-1"></i>@truyen.LuotXem
+                                            </span>
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-heart me-1"></i>@truyen.LuotThich
+                                            </span>
+                                        </div>
+                                        <span class="badge @(truyen.TrangThai == "Full" ? "bg-success" : "bg-primary") w-100">@truyen.TrangThai</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <button class="btn btn-dark position-absolute top-50 end-0 translate-middle-y z-3 slider-next" data-slider="hay" style="width: 50px; height: 50px; border-radius: 50%; font-size: 20px;">❯</button>
+        </div>
+    </section>
+
+    <!-- TRUYỆN FULL -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-check-double text-success me-2"></i>TRUYỆN FULL <span class="badge bg-success">@Model.TruyenFull.Count</span>
+        </h2>
+        <div class="position-relative">
+            <button class="btn btn-dark position-absolute top-50 start-0 translate-middle-y z-3 slider-prev" data-slider="full" style="width: 50px; height: 50px; border-radius: 50%; font-size: 20px;">❮</button>
+            <div class="slider-container overflow-hidden px-4">
+                <div class="slider-track d-flex" id="fullTrack">
+                    @foreach (var truyen in Model.TruyenFull)
+                    {
+                        <div class="flex-shrink-0 mx-3" style="width: calc((100% - 60px) / 6);">
+                            <a asp-controller="Truyen" asp-action="ChiTiet" asp-route-id="@truyen.MaTruyen" class="text-decoration-none h-100 d-block">
+                                <div class="card h-100 shadow-sm border-0 hover-lift">
+                                    <img src="@(truyen.AnhBia ?? "/img/default-cover.jpg")" class="card-img-top" style="height: 220px; object-fit: cover;" alt="@truyen.TenTruyen">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title fw-bold text-truncate mb-1">@truyen.TenTruyen</h6>
+                                        <small class="text-muted d-block mb-2">@truyen.TheLoai</small>
+                                        <div class="d-flex justify-content-between small mb-2">
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-eye me-1"></i>@truyen.LuotXem
+                                            </span>
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-heart me-1"></i>@truyen.LuotThich
+                                            </span>
+                                        </div>
+                                        <span class="badge bg-success w-100">FULL</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <button class="btn btn-dark position-absolute top-50 end-0 translate-middle-y z-3 slider-next" data-slider="full" style="width: 50px; height: 50px; border-radius: 50%; font-size: 20px;">❯</button>
+        </div>
+    </section>
+</div>
+
+<style>
+.hover-lift:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+.hover-lift .card-img-top:hover {
+    transform: scale(1.02);
+}
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.slider-container {
+    cursor: grab;
+}
+.slider-container:active {
+    cursor: grabbing;
+}
+</style>
