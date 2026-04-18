@@ -6,6 +6,22 @@
 }
 
 @functions {
+    public static string TrangThaiCssClass(string? trangThai)
+    {
+        if (string.IsNullOrWhiteSpace(trangThai))
+        {
+            return string.Empty;
+        }
+
+        return trangThai.Trim().ToLowerInvariant() switch
+        {
+            "full" => "story-card__cta--success",
+            "ngừng phát hành" => "story-card__cta--danger",
+            "ngung phat hanh" => "story-card__cta--danger",
+            _ => string.Empty
+        };
+    }
+
     public static string TrangThaiHienThi(string? trangThai)
     {
         return string.IsNullOrWhiteSpace(trangThai) ? "Đang ra" : trangThai;
@@ -70,7 +86,7 @@
                                     </span>
                                 </div>
 
-                                <span class="story-card__cta">@TrangThaiHienThi(truyen.TrangThai)</span>
+                                <span class="story-card__cta @TrangThaiCssClass(truyen.TrangThai)">@TrangThaiHienThi(truyen.TrangThai)</span>
                             </div>
                         </a>
                     </article>
@@ -102,7 +118,7 @@
                                 </span>
                             </div>
 
-                            <span class="story-card__cta">@TrangThaiHienThi(truyen.TrangThai)</span>
+                            <span class="story-card__cta @TrangThaiCssClass(truyen.TrangThai)">@TrangThaiHienThi(truyen.TrangThai)</span>
                         </div>
                     </a>
                 </article>
