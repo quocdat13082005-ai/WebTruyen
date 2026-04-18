@@ -113,4 +113,5 @@ AutoTest.Net/
 
 # ASP.NET Core
 **/.vs/
+.dotnet/
 

@@ -1,9 +1,13 @@
+@model Truyen.Models.ProfileViewModel
+
 @{
     ViewData["Title"] = "Thông tin cá nhân";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model Truyen.Models.ProfileViewModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/home-profile.css" asp-append-version="true" />
+}
 
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
@@ -68,6 +72,16 @@
                             <i class="fas fa-coins me-2"></i>Nạp xu
                         </a>
                     </div>
+
+                    <div class="d-flex gap-3 justify-content-center flex-wrap mt-3">
+                        <a href="/Truyen/TheoDoi" class="btn btn-outline-dark">
+                            <i class="fas fa-bookmark me-2"></i>Truyện đang theo dõi
+                        </a>
+                        <a href="/Truyen/YeuThich" class="btn btn-outline-danger">
+                            <i class="fas fa-heart me-2"></i>Truyện yêu thích
+                        </a>
+                    </div>
+
                     <div class="text-center mt-3">
                         <a asp-action="Index" class="btn btn-outline-secondary">
                             <i class="fas fa-arrow-left me-2"></i>Trang chủ
@@ -78,16 +92,3 @@
         </div>
     </div>
 </div>
-
-<style>
-.profile-info .form-control-plaintext {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 0.375rem;
-    padding: 0.75rem;
-}
-.badge {
-    font-size: 1rem;
-}
-</style>
-

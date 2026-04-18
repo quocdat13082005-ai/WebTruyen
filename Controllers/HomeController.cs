@@ -23,7 +23,7 @@ public class HomeController : Controller
             // Truyện Hot
             // ===============================
             string hotSql = @"
-                SELECT TOP 11 *
+                SELECT TOP 10 *
                 FROM Truyen
                 ORDER BY LuotXem DESC";
 
@@ -40,7 +40,7 @@ public class HomeController : Controller
             // Truyện Hay
             // ===============================
             string haySql = @"
-                SELECT TOP 11 *
+                SELECT TOP 10 *
                 FROM Truyen
                 ORDER BY LuotThich DESC";
 
@@ -57,7 +57,7 @@ public class HomeController : Controller
             // Truyện Full
             // ===============================
             string fullSql = @"
-                SELECT TOP 11 *
+                SELECT TOP 10 *
                 FROM Truyen
                 WHERE TrangThai = N'Full'
                 ORDER BY LuotXem DESC";

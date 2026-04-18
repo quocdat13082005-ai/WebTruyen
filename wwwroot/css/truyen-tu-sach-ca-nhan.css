@@ -1,0 +1,29 @@
+.hover-card {
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, .08) !important;
+}
+
+.suggestion-cover {
+    height: 240px;
+    object-fit: cover;
+}
+
+.suggestion-title {
+    min-height: 42px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.suggestion-genre {
+    min-height: 34px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

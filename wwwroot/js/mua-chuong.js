@@ -1,18 +1,21 @@
 // ===================================
-// MUA CHƯƠNG + ĐỔI NÚT THÀNH ĐỌC NGAY
+// MUA CHUONG + DOI NUT THANH DOC NGAY
 // ===================================
 async function muaChuong(maChuong) {
-    const btn = event.target.closest('button');
-    const cardLink = btn.closest('a');
+    const activeElement = document.activeElement;
+    const btn = activeElement instanceof HTMLElement ? activeElement.closest('button') : null;
+    const fallbackButton = document.querySelector(`button[onclick*="muaChuong(${maChuong})"]`);
+    const targetButton = btn || fallbackButton;
 
-    if (!btn) return;
+    if (!targetButton) return;
 
-    btn.disabled = true;
+    const cardLink = targetButton.closest('a');
+    targetButton.disabled = true;
 
     const returnUrl = encodeURIComponent(window.location.href);
 
     try {
-        const response = await fetch('/Truyen/MuaChuong', {
+        const response = await fetch('/MuaChuong/MuaChuong', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -30,81 +33,50 @@ async function muaChuong(maChuong) {
         if (result.success) {
             showSuccess(result.message);
 
-            // Redirect thẳng đến đọc chương (cho nút top + card)
             setTimeout(() => {
                 window.location.href = '/Truyen/DocChuong/' + maChuong;
             }, 1000);
 
-            // UI update nếu ở lại page
             if (cardLink) {
                 cardLink.href = '/Truyen/DocChuong/' + maChuong;
                 cardLink.removeAttribute('onclick');
             }
-            btn.classList.remove('btn-outline-primary');
-            btn.classList.add('btn-success');
-            btn.innerHTML = '<i class="fas fa-play me-1"></i>Đọc ngay';
-        } else {
-            showError(result.message || 'Lỗi không xác định!');
-        }
 
+            targetButton.classList.remove('btn-outline-primary');
+            targetButton.classList.add('btn-success');
+            targetButton.innerHTML = '<i class="fas fa-play me-1"></i>Doc ngay';
+        } else {
+            showError(result.message || 'Loi khong xac dinh.');
+        }
     } catch (error) {
-        console.error('Mua chương error:', error);
-        showError('Lỗi hệ thống. Vui lòng thử lại! Kiểm tra console F12.');
-        console.log('Full response error:', error);
+        console.error('Mua chuong error:', error);
+        showError('Loi he thong. Vui long thu lai.');
     } finally {
-        btn.disabled = false;
-        if (!btn.classList.contains('btn-success')) {
-            btn.innerHTML = '<i class="fas fa-lock me-1"></i>Mua & Đọc';
+        targetButton.disabled = false;
+
+        if (!targetButton.classList.contains('btn-success')) {
+            targetButton.innerHTML = '<i class="fas fa-lock me-1"></i>Mua & Doc';
         }
     }
 }
 
-
-// ===================================
-// TOAST SUCCESS
-// ===================================
 function showSuccess(msg) {
-
     const toast = document.createElement('div');
-
-    toast.className =
-        'toast-success position-fixed top-0 end-0 m-3 p-3 rounded shadow';
-
-    toast.innerHTML = `
-        <i class="fas fa-check-circle me-2"></i>${msg}
-    `;
-
+    toast.className = 'toast-success position-fixed top-0 end-0 m-3 p-3 rounded shadow';
+    toast.innerHTML = `<i class="fas fa-check-circle me-2"></i>${msg}`;
     document.body.appendChild(toast);
-
     setTimeout(() => toast.remove(), 2500);
 }
 
-
-// ===================================
-// TOAST ERROR
-// ===================================
 function showError(msg) {
-
     const toast = document.createElement('div');
-
-    toast.className =
-        'toast-error position-fixed top-0 end-0 m-3 p-3 rounded shadow';
-
-    toast.innerHTML = `
-        <i class="fas fa-times-circle me-2"></i>${msg}
-    `;
-
+    toast.className = 'toast-error position-fixed top-0 end-0 m-3 p-3 rounded shadow';
+    toast.innerHTML = `<i class="fas fa-times-circle me-2"></i>${msg}`;
     document.body.appendChild(toast);
-
     setTimeout(() => toast.remove(), 3000);
 }
 
-
-// ===================================
-// CSS AUTO
-// ===================================
 (function () {
-
     const style = document.createElement('style');
 
     style.innerHTML = `
@@ -132,7 +104,6 @@ function showError(msg) {
     `;
 
     document.head.appendChild(style);
-
 })();
 
-console.log('Mua chương PRO loaded!');
+console.log('Mua chuong JS loaded');

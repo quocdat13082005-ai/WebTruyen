@@ -14,7 +14,7 @@ public class MuaChuongController : Controller
     // MUA CHƯƠNG
     // ===========================
 [HttpPost]
-public IActionResult MuaChuong(int maChuong, string returnUrl = null)
+public IActionResult MuaChuong(int maChuong, string? returnUrl = null)
 {
     int? maTK = HttpContext.Session.GetInt32("MaTK");
 
@@ -25,7 +25,7 @@ public IActionResult MuaChuong(int maChuong, string returnUrl = null)
         return RedirectToAction("Login", "Auth");
     }
 
-    string errorMsg = null;
+    string? errorMsg = null;
     bool success = false;
     string successMsg = "Mua chương thành công!";
 

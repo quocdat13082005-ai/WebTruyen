@@ -1,0 +1,87 @@
+.story-cover {
+    height: 500px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+    transition: all .3s ease;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.action-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.action-pill {
+    min-width: 180px;
+}
+
+.detail-description {
+    font-size: 1.05rem;
+    line-height: 1.85;
+}
+
+.review-list {
+    display: grid;
+    gap: 16px;
+}
+
+.review-item {
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    padding: 18px;
+    background: #fff;
+}
+
+.empty-review {
+    border: 1px dashed #ced4da;
+    border-radius: 16px;
+    padding: 24px;
+    background: #f8f9fa;
+}
+
+.suggestion-card {
+    overflow: hidden;
+}
+
+.suggestion-cover {
+    height: 240px;
+    object-fit: cover;
+}
+
+.suggestion-title {
+    min-height: 42px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.suggestion-genre {
+    min-height: 34px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .story-cover {
+        height: 380px;
+    }
+
+    .action-pill {
+        width: 100%;
+    }
+
+    .suggestion-cover {
+        height: 220px;
+    }
+}

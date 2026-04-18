@@ -5,6 +5,10 @@
 
 @model Truyen.Models.DocChuongViewModel
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/truyen-doc-chuong.css" asp-append-version="true" />
+}
+
 <div class="container-fluid p-0 min-vh-100 bg-light">
     <div class="row g-0">
         <!-- Sidebar -->
@@ -94,39 +98,6 @@
         </div>
     </div>
 </div>
-
-<style>
-.reader-content {
-    max-width: 900px;
-    margin: 0 auto;
-}
-.chapter-content {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #333;
-    font-family: 'Times New Roman', serif;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    min-height: 70vh;
-}
-.theme-night .chapter-content {
-    background: #1a1a1a !important;
-    color: #e0e0e0 !important;
-}
-.font-sm { font-size: 14px !important; }
-.font-md { font-size: 16px !important; }
-.font-lg { font-size: 18px !important; }
-.btn.active { background-color: #0d6efd !important; color: white !important; }
-/* Responsive mobile */
-@@media (max-width: 768px) {
-    .chapter-content { 
-        padding: 20px 10px !important; 
-        font-size: 15px !important; 
-    }
-}
-</style>
 
 <script>
 let currentFont = 16;

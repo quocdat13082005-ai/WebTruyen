@@ -3,6 +3,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/home-the-loai.css" asp-append-version="true" />
+}
+
 <div class="container my-5">
     <div class="row">
         <div class="col-12">
@@ -212,23 +216,3 @@
         </div>
     </div>
 </div>
-
-<style>
-.genre-card:hover {
-    transform: scale(1.05);
-    transition: all 0.3s ease;
-    z-index: 10;
-}
-
-.hover-scale {
-    transition: all 0.3s ease;
-}
-
-.container-fluid {
-    min-height: 80vh;
-}
-
-.card {
-    background: white;
-}
-</style>

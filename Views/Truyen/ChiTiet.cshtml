@@ -3,148 +3,260 @@
 @{
     ViewData["Title"] = Model.Truyen.TenTruyen;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var chuong1 = Model.Chuongs.FirstOrDefault();
+    var daDangNhap = Context.Session.GetInt32("MaTK") != null;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/truyen-chi-tiet.css" asp-append-version="true" />
+}
 
-    <!-- Hero Section -->
-    <div class="row g-4 mb-5">
+<div class="container py-5 story-detail-page">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
 
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row g-4 mb-5 align-items-start">
         <div class="col-lg-4">
-            <img src="@(Model.Truyen.AnhBia ?? "/img/default-cover.jpg")"
-                 class="img-fluid rounded-4 shadow-lg"
-                 style="height:500px;object-fit:cover;width:100%;"
+            <img src="@(string.IsNullOrWhiteSpace(Model.Truyen.AnhBia) ? "/img/default-cover.jpg" : Model.Truyen.AnhBia)"
+                 class="img-fluid rounded-4 shadow-lg story-cover"
                  alt="@Model.Truyen.TenTruyen" />
         </div>
 
         <div class="col-lg-8">
+            <h1 class="display-5 fw-bold mb-3">@Model.Truyen.TenTruyen</h1>
 
-            <h1 class="display-4 fw-bold mb-4">
-                @Model.Truyen.TenTruyen
-            </h1>
-
-            <div class="mb-4">
-                <h5 class="fw-bold text-primary">
-                    <i class="fas fa-user me-2"></i>
-                    @(Model.Truyen.TacGia ?? "N/A")
-                </h5>
-
-                <small class="text-muted">
-                    <i class="fas fa-calendar me-1"></i>
-                    @Model.Truyen.NgayDang.ToString("dd/MM/yyyy")
-                </small>
+            <div class="mb-3 text-muted">
+                <div class="mb-2">
+                    <i class="fas fa-user me-2 text-primary"></i>@(string.IsNullOrWhiteSpace(Model.Truyen.TacGia) ? "N/A" : Model.Truyen.TacGia)
+                </div>
+                <div>
+                    <i class="fas fa-calendar me-2 text-primary"></i>@Model.Truyen.NgayDang.ToString("dd/MM/yyyy")
+                </div>
             </div>
 
-            <!-- Stats -->
             <div class="d-flex gap-3 mb-4 flex-wrap">
-
-                <span class="badge bg-warning fs-6 px-4 py-2">
-                    <i class="fas fa-eye me-2"></i>
-                    @Model.Truyen.LuotXem.ToString("N0")
+                <span class="badge bg-warning text-dark fs-6 px-4 py-2">
+                    <i class="fas fa-eye me-2"></i>@Model.Truyen.LuotXem.ToString("N0")
                 </span>
-
                 <span class="badge bg-danger fs-6 px-4 py-2">
-                    <i class="fas fa-heart me-2"></i>
-                    @Model.Truyen.LuotThich.ToString("N0")
+                    <i class="fas fa-heart me-2"></i>@Model.Truyen.LuotThich.ToString("N0")
                 </span>
-
+                <span class="badge bg-info text-dark fs-6 px-4 py-2">
+                    <i class="fas fa-star me-2"></i>@Model.DiemTrungBinh.ToString("0.0")/5 (@Model.TongDanhGia)
+                </span>
                 <span class="badge @(Model.Truyen.TrangThai == "Full" ? "bg-success" : "bg-primary") fs-6 px-4 py-2">
                     @Model.Truyen.TrangThai
                 </span>
-
             </div>
 
-            <!-- Actions -->
-            <div class="d-flex gap-3 mb-4">
-
-                @{
-                    var chuong1 = Model.Chuongs.FirstOrDefault();
-                }
-                @if (Context.Session.GetInt32("MaTK") != null && chuong1 != null)
+            <div class="d-flex gap-3 mb-4 flex-wrap">
+                @if (daDangNhap && chuong1 != null)
                 {
                     bool daMuaChuong1 = Model.DaMuaChuong.Contains(chuong1.MaChuong);
-                    @if (daMuaChuong1)
+                    if (daMuaChuong1)
                     {
-                        <a asp-controller="Truyen" asp-action="DocChuong" asp-route-id="@chuong1.MaChuong" class="btn btn-success btn-lg px-5">
-                            <i class="fas fa-play me-2"></i>Đọc chương 1
+                        <a asp-controller="Truyen" asp-action="DocChuong" asp-route-id="@chuong1.MaChuong" class="btn btn-success btn-lg px-4">
+                            <i class="fas fa-play me-2"></i>Đọc ngay
                         </a>
                     }
                     else
                     {
-                        <button type="button" class="btn btn-success btn-lg px-5" onclick="muaChuong(@chuong1.MaChuong); return false;">
-                            <i class="fas fa-lock me-2"></i>Mua & Đọc chương 1
+                        <button type="button" class="btn btn-success btn-lg px-4" onclick="muaChuong(@chuong1.MaChuong); return false;">
+                            <i class="fas fa-lock me-2"></i>Mua và đọc
                         </button>
                     }
                 }
                 else
                 {
-                    <a href="/Auth/Login" class="btn btn-success btn-lg px-5">
-                        <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập đọc
+                    <a href="/Auth/Login" class="btn btn-success btn-lg px-4">
+                        <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập để đọc
                     </a>
                 }
 
-                <a asp-controller="Home"
-                   asp-action="Index"
-                   class="btn btn-outline-secondary btn-lg">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary btn-lg">
                     <i class="fas fa-arrow-left me-2"></i>Quay lại
                 </a>
-
             </div>
 
-            <!-- Genre -->
+            <div class="action-grid mb-4">
+                @if (daDangNhap)
+                {
+                    <form asp-action="TheoDoi" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="maTruyen" value="@Model.Truyen.MaTruyen" />
+                        <input type="hidden" name="returnUrl" value="@returnUrl" />
+                        <button type="submit" class="btn @(Model.DangTheoDoi ? "btn-dark" : "btn-outline-dark") action-pill">
+                            <i class="fas fa-bookmark me-2"></i>@(Model.DangTheoDoi ? "Bỏ theo dõi" : "Theo dõi")
+                        </button>
+                    </form>
+
+                    <form asp-action="YeuThich" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="maTruyen" value="@Model.Truyen.MaTruyen" />
+                        <input type="hidden" name="returnUrl" value="@returnUrl" />
+                        <button type="submit" class="btn @(Model.DaYeuThich ? "btn-danger" : "btn-outline-danger") action-pill">
+                            <i class="fas fa-heart me-2"></i>@(Model.DaYeuThich ? "Bỏ yêu thích" : "Yêu thích")
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a href="/Auth/Login" class="btn btn-outline-dark action-pill">
+                        <i class="fas fa-bookmark me-2"></i>Theo dõi
+                    </a>
+                    <a href="/Auth/Login" class="btn btn-outline-danger action-pill">
+                        <i class="fas fa-heart me-2"></i>Yêu thích
+                    </a>
+                }
+            </div>
+
             <div class="mb-3">
-                <small class="fw-bold text-muted me-2">
-                    Thể loại:
-                </small>
-
-                <span class="badge bg-light text-dark border px-3 py-2">
-                    @Model.Truyen.TheLoai
-                </span>
+                <small class="fw-bold text-muted me-2">Thể loại:</small>
+                <span class="badge bg-light text-dark border px-3 py-2">@Model.Truyen.TheLoai</span>
             </div>
-
         </div>
     </div>
 
-    <!-- Description -->
-    <div class="row mb-5">
-        <div class="col-12">
-
-            <div class="card shadow-lg border-0">
-
+    <div class="row g-4 mb-5">
+        <div class="col-lg-7">
+            <div class="card shadow-lg border-0 h-100">
                 <div class="card-header bg-white border-0 pb-0">
                     <h3 class="mb-0 fw-bold">
-                        <i class="fas fa-book-open me-2 text-primary"></i>
-                        Giới thiệu
+                        <i class="fas fa-book-open me-2 text-primary"></i>Giới thiệu
                     </h3>
                 </div>
-
                 <div class="card-body p-4">
-                    <div class="text-justify lh-lg"
-                         style="font-size:1.1em;line-height:1.8;">
-
-                        @Html.Raw(Model.Truyen.MoTa.Replace("\n", "<br/>"))
-
+                    <div class="text-justify lh-lg detail-description">
+                        @Html.Raw((Model.Truyen.MoTa ?? string.Empty).Replace("\n", "<br/>"))
                     </div>
                 </div>
-
             </div>
+        </div>
 
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 h-100">
+                <div class="card-header bg-white border-0 pb-0 d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0 fw-bold">
+                        <i class="fas fa-star me-2 text-warning"></i>Đánh giá
+                    </h3>
+                    <span class="badge bg-warning text-dark fs-6">@Model.DiemTrungBinh.ToString("0.0")/5</span>
+                </div>
+                <div class="card-body p-4">
+                    @if (daDangNhap)
+                    {
+                        <form asp-action="DanhGia" method="post" class="rating-form">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="maTruyen" value="@Model.Truyen.MaTruyen" />
+                            <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+                            <label class="form-label fw-semibold">Số sao</label>
+                            <select name="soSao" class="form-select mb-3" required>
+                                <option value="">Chọn số sao</option>
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (Model.SoSaoDaChon == i)
+                                    {
+                                        <option value="@i" selected>@i sao</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">@i sao</option>
+                                    }
+                                }
+                            </select>
+
+                            <label class="form-label fw-semibold">Nhận xét</label>
+                            <textarea name="noiDung" rows="4" class="form-control mb-3" maxlength="500" placeholder="Chia sẻ cảm nhận của bạn...">@Model.NoiDungDanhGia</textarea>
+
+                            <button type="submit" class="btn btn-warning w-100 fw-semibold">
+                                <i class="fas fa-paper-plane me-2"></i>@(Model.SoSaoDaChon > 0 ? "Cập nhật đánh giá" : "Gửi đánh giá")
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="empty-review">
+                            <p class="mb-3">Đăng nhập để theo dõi, yêu thích và đánh giá truyện này.</p>
+                            <a href="/Auth/Login" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- DANH SÁCH CHƯƠNG -->
+    <div class="row g-4 mb-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-white border-0 pb-0">
+                    <h3 class="mb-0 fw-bold">
+                        <i class="fas fa-comments me-2 text-info"></i>Nhận xét từ độc giả (@Model.TongDanhGia)
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    @if (Model.DanhGias.Any())
+                    {
+                        <div class="review-list">
+                            @foreach (var danhGia in Model.DanhGias)
+                            {
+                                <div class="review-item">
+                                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                        <div>
+                                            <div class="fw-bold">@danhGia.HoTen</div>
+                                            <div class="text-warning">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <i class="fas @(i <= danhGia.SoSao ? "fa-star" : "fa-star text-secondary opacity-25")"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">@danhGia.NgayDanhGia.ToString("dd/MM/yyyy HH:mm")</small>
+                                    </div>
+
+                                    @if (!string.IsNullOrWhiteSpace(danhGia.NoiDung))
+                                    {
+                                        <p class="mb-0 mt-3 text-secondary">@danhGia.NoiDung</p>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-light border mb-0">
+                            Chưa có đánh giá nào cho truyện này.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if (Model.Chuongs.Any())
     {
         <div class="row">
             <div class="col-12">
-
                 <h3 class="mb-4 fw-bold">
-                    <i class="fas fa-list me-2 text-success"></i>
-                    Danh sách chương (@Model.Chuongs.Count)
+                    <i class="fas fa-list me-2 text-success"></i>Danh sách chương (@Model.Chuongs.Count)
                 </h3>
 
                 <div class="row g-3">
-
                     @foreach (var chuong in Model.Chuongs)
                     {
                         bool daMua = Model.DaMuaChuong.Contains(chuong.MaChuong);
@@ -152,19 +264,15 @@
                         <div class="col-lg-4 col-md-6">
                             @if (daMua)
                             {
-                                <!-- ĐÃ MUA -->
-                                <a href="/Truyen/DocChuong/@chuong.MaChuong"
-                                   class="text-decoration-none">
+                                <a href="/Truyen/DocChuong/@chuong.MaChuong" class="text-decoration-none">
                                     <div class="card h-100 border-0 shadow-sm hover-lift">
                                         <div class="card-body p-4">
                                             <div class="mb-2">
-                                                <span class="badge bg-success fs-6">
-                                                    Chương @chuong.SoThuTu
-                                                </span>
+                                                <span class="badge bg-success fs-6">Chương @chuong.SoThuTu</span>
                                             </div>
-                                            <h6 class="fw-bold mb-3">@chuong.TenChuong</h6>
+                                            <h6 class="fw-bold mb-3 text-dark">@chuong.TenChuong</h6>
                                             <div class="text-end">
-                                                <button class="btn btn-success btn-sm">
+                                                <button type="button" class="btn btn-success btn-sm">
                                                     <i class="fas fa-play me-1"></i>Đọc ngay
                                                 </button>
                                             </div>
@@ -174,21 +282,16 @@
                             }
                             else
                             {
-                                <!-- CHƯA MUA -->
-                                <a href="javascript:void(0)"
-                                   onclick="muaChuong(@chuong.MaChuong)"
-                                   class="text-decoration-none">
+                                <a href="javascript:void(0)" onclick="muaChuong(@chuong.MaChuong)" class="text-decoration-none">
                                     <div class="card h-100 border-0 shadow-sm hover-lift">
                                         <div class="card-body p-4">
                                             <div class="mb-2">
-                                                <span class="badge bg-primary fs-6">
-                                                    Chương @chuong.SoThuTu
-                                                </span>
+                                                <span class="badge bg-primary fs-6">Chương @chuong.SoThuTu</span>
                                             </div>
-                                            <h6 class="fw-bold mb-3">@chuong.TenChuong</h6>
+                                            <h6 class="fw-bold mb-3 text-dark">@chuong.TenChuong</h6>
                                             <div class="text-end">
-                                                <button class="btn btn-outline-primary btn-sm">
-                                                    <i class="fas fa-lock me-1"></i>Mua & Đọc
+                                                <button type="button" class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-lock me-1"></i>Mua và đọc
                                                 </button>
                                             </div>
                                         </div>
@@ -197,7 +300,6 @@
                             }
                         </div>
                     }
-
                 </div>
             </div>
         </div>
@@ -205,39 +307,55 @@
     else
     {
         <div class="alert alert-info">
-            <i class="fas fa-info-circle me-2"></i>
-            Chưa có chương nào.
+            <i class="fas fa-info-circle me-2"></i>Chưa có chương nào.
         </div>
     }
 
+    @if (Model.GoiYTruyens.Any())
+    {
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                    <div>
+                        <h3 class="mb-1 fw-bold">
+                            <i class="fas fa-compass me-2 text-danger"></i>18 truyện gợi ý
+                        </h3>
+                        <p class="text-muted mb-0">Thêm một vài lựa chọn để đọc tiếp.</p>
+                    </div>
+                    <a asp-controller="Truyen" asp-action="DanhSachTruyen" class="btn btn-outline-secondary">
+                        Xem thêm
+                    </a>
+                </div>
+
+                <div class="row g-4">
+                    @foreach (var truyen in Model.GoiYTruyens)
+                    {
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <a asp-controller="Truyen" asp-action="ChiTiet" asp-route-id="@truyen.MaTruyen" class="text-decoration-none">
+                                <div class="card h-100 border-0 shadow-sm hover-lift suggestion-card">
+                                    <img src="@(string.IsNullOrWhiteSpace(truyen.AnhBia) ? "/img/default-cover.jpg" : truyen.AnhBia)"
+                                         class="card-img-top suggestion-cover"
+                                         alt="@truyen.TenTruyen" />
+                                    <div class="card-body">
+                                        <h6 class="fw-bold text-dark suggestion-title mb-2">@truyen.TenTruyen</h6>
+                                        <p class="text-muted small mb-2 suggestion-genre">@truyen.TheLoai</p>
+                                        <div class="d-flex gap-2 flex-wrap">
+                                            <span class="badge bg-warning text-dark">
+                                                <i class="fas fa-eye me-1"></i>@truyen.LuotXem
+                                            </span>
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-heart me-1"></i>@truyen.LuotThich
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
 <script src="~/js/mua-chuong.js"></script>
-
-<style>
-.hover-lift:hover{
-    transform:translateY(-8px);
-    transition:all .3s ease;
-}
-
-.text-justify{
-    text-align:justify;
-}
-
-@@media (max-width:768px){
-
-    .display-4{
-        font-size:2rem !important;
-    }
-
-    .topbar{
-        flex-direction:column !important;
-        gap:10px !important;
-    }
-
-    .greeting{
-        max-width:100% !important;
-        text-align:center !important;
-    }
-}
-</style>
